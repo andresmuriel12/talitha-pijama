@@ -1948,114 +1948,131 @@ footer {
 .team-collage {
     position: relative;
     width: 100%;
-    background: var(--crema-dark);
     overflow: hidden;
+    background: var(--crema-dark);
 }
 
-/* Hero collage: altura fija, fotos de cuerpo completo */
-.hero-collage {
-    /* Ajusta según el aspect ratio de las fotos (portrait ~3:4) */
-    height: clamp(480px, 70vw, 900px);
-}
-
-.team-collage {
-    height: clamp(440px, 60vw, 820px);
-}
-
+/* ── Strip: fila horizontal de fotos ────────────────────────── */
 .collage-strip {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    height: 100%;
+    gap: 4px;
     width: 100%;
-    gap: 3px;
 }
 
+/* ── Cada celda: ratio portrait = las fotos se ven completas ── */
 .collage-photo {
-    overflow: hidden;
     position: relative;
+    aspect-ratio: 3 / 4;   /* ratio retrato de las fotos */
+    overflow: hidden;
     background: var(--crema-dark);
 }
 
-/* object-fit: contain — muestra la foto COMPLETA sin recortar */
+/* cover + top: muestra cuerpo completo de arriba a abajo */
 .collage-photo img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    object-position: center bottom;
+    object-fit: cover;
+    object-position: center top;
     display: block;
-    transition: transform 0.7s var(--transition-smooth);
+    transition: transform 0.8s var(--transition-smooth);
 }
 
 .hero-collage:hover .collage-photo img,
 .team-collage:hover .collage-photo img {
-    transform: scale(1.03);
+    transform: scale(1.04);
 }
 
-/* ── Overlay con frase centrada ─────────────────────────────── */
+/* ── Overlay: gradiente suave que permite leer sin tapar la foto */
 .collage-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
     pointer-events: none;
-    z-index: 2;
+    z-index: 3;
+    /* Oscurecimiento leve y uniforme — foto sigue visible */
+    background: linear-gradient(
+        160deg,
+        rgba(0,0,0,0.05) 0%,
+        rgba(0,0,0,0.22) 50%,
+        rgba(0,0,0,0.05) 100%
+    );
 }
 
 .collage-overlay--dark {
-    background: rgba(0, 0, 0, 0.12);
+    background: linear-gradient(
+        160deg,
+        rgba(0,0,0,0.04) 0%,
+        rgba(0,0,0,0.28) 50%,
+        rgba(0,0,0,0.04) 100%
+    );
 }
 
+/* ── Texto flotante sin recuadro — estilo editorial ─────────── */
 .collage-text {
     text-align: center;
-    padding: 1.25rem 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.6rem;
-    /* Fondo sutil — solo lo justo para leer el texto */
-    background: rgba(10, 9, 8, 0.22);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    border: 1px solid rgba(196, 154, 108, 0.15);
+    gap: 0.5rem;
+    /* Sin fondo, sin borde — el texto flota sobre la foto */
+    background: none;
+    border: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    padding: 0;
+    max-width: 520px;
 }
 
 .collage-eyebrow {
     font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.6em;
+    font-weight: 500;
+    letter-spacing: 0.55em;
     text-transform: uppercase;
-    color: var(--gold);
+    color: rgba(255,255,255,0.75);
+    text-shadow: 0 1px 8px rgba(0,0,0,0.5);
 }
 
 .collage-phrase {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.6rem, 3.8vw, 3.2rem);
+    font-size: clamp(1.8rem, 4vw, 3.8rem);
     font-weight: 300;
     font-style: italic;
-    line-height: 1.25;
+    line-height: 1.2;
     color: var(--white);
-    text-shadow: 0 2px 12px rgba(0,0,0,0.5);
-    letter-spacing: 0.03em;
+    /* Sombra multi-capa para legibilidad sin recuadro */
+    text-shadow:
+        0 2px 4px rgba(0,0,0,0.35),
+        0 4px 20px rgba(0,0,0,0.3),
+        0 8px 40px rgba(0,0,0,0.2);
+    letter-spacing: 0.02em;
+}
+
+/* Palabra clave en dorado — como Greenfit mezcla tipografías */
+.collage-phrase strong {
+    font-weight: 600;
+    font-style: normal;
+    color: var(--gold-light);
 }
 
 .collage-divider {
-    font-size: 14px;
-    color: var(--gold);
-    letter-spacing: 0.6em;
+    font-size: 11px;
+    color: rgba(196,154,108,0.8);
+    letter-spacing: 0.7em;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.4);
 }
 
-/* ── Foto central del collage más prominente ────────────────── */
+/* ── Foto central más destacada ─────────────────────────────── */
 .collage-photo--center {
     z-index: 1;
-    box-shadow: -6px 0 20px rgba(0,0,0,0.12), 6px 0 20px rgba(0,0,0,0.12);
 }
 
-/* ── Collage de 5 fotos ─────────────────────────────────────── */
+/* ── 5 fotos (collage equipo) ────────────────────────────────── */
 .collage-strip--5 {
     grid-template-columns: repeat(5, 1fr);
-    gap: 3px;
+    gap: 4px;
 }
 
 /* ── Sección NUEVO ──────────────────────────────────────────── */
@@ -2196,15 +2213,15 @@ footer {
         grid-template-columns: repeat(3, 1fr);
         gap: 1.5rem 2rem;
     }
-
-    .tiendas-grid {
-        grid-template-columns: 1fr;
-    }
-
+    .tiendas-grid { grid-template-columns: 1fr; }
     .store-card {
         grid-template-columns: 1fr 1fr;
         max-width: 700px;
         margin: 0 auto;
+    }
+    /* Collage de 5 fotos en tablet → 3 columnas */
+    .collage-strip--5 {
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
@@ -2212,135 +2229,117 @@ footer {
    RESPONSIVE — MOBILE (max 768px)
 ══════════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
-    /* Nav */
+
+    /* ── NAVEGACIÓN ──────────────────────────────────────────── */
     .nav-links { display: none; }
     .hamburger-btn { display: flex; }
-
-    /* En móvil el botón de búsqueda del nav es más pequeño */
     #nav-search-btn { width: 36px; height: 36px; }
+    .nav-inner { padding: 0 1rem; height: 60px; }
+    .nav-logo { font-size: 1.2rem; letter-spacing: 0.25em; }
 
-    .nav-inner {
-        padding: 0 1rem;
-        height: 60px;
-    }
-
-    /* Hero */
+    /* ── HERO ────────────────────────────────────────────────── */
+    .hero-logo { width: clamp(140px, 50vw, 220px); margin-bottom: 2rem; }
+    .hero-title { font-size: clamp(44px, 13vw, 80px); }
     .hero-badges {
         grid-template-columns: 1fr;
         gap: 0.75rem;
-        max-width: 340px;
+        max-width: 320px;
     }
-
     .hero-badge {
-        padding: 1.25rem;
+        padding: 1rem 1.25rem;
         flex-direction: row;
-        gap: 1rem;
+        gap: 0.875rem;
         text-align: left;
     }
+    .hero-badge-line { width: 18px; flex-shrink: 0; margin-bottom: 0; }
+    .hero-badge-text { text-align: left; }
+    .hero-story { font-size: 13px; max-width: 300px; }
+    .hero-cta { padding: 1rem 2rem; width: 100%; justify-content: center; }
 
-    .hero-badge-line {
-        width: 20px;
-        flex-shrink: 0;
-        margin-bottom: 0;
+    /* ── COLLAGES — carrusel horizontal deslizable ───────────── */
+    .collage-strip,
+    .collage-strip--5 {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 3px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    .collage-strip::-webkit-scrollbar,
+    .collage-strip--5::-webkit-scrollbar { display: none; }
+
+    /* Una foto visible a la vez, centrada */
+    .collage-photo {
+        flex: 0 0 92vw;
+        scroll-snap-align: center;
+        aspect-ratio: 3 / 4;
     }
 
-    .hero-badge-text { text-align: left; }
+    /* Texto flotante en móvil — más compacto */
+    .collage-phrase { font-size: clamp(1.4rem, 6vw, 2rem); }
+    .collage-text { max-width: 88vw; gap: 0.35rem; }
+    .collage-eyebrow { font-size: 8px; letter-spacing: 0.4em; }
 
-    /* Grid */
+    /* ── CATÁLOGO ────────────────────────────────────────────── */
+    .section-header { margin-bottom: 2rem; padding: 0 1rem; }
+    .search-container { max-width: 100%; padding: 0 1rem; margin-bottom: 2.5rem; }
+    .search-input { font-size: 13px; }
     #productos-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 1rem 1rem;
+        gap: 0.75rem;
     }
+    .products-container { padding: 0 0.75rem; }
+    .card-name { font-size: 13px; }
+    .assistance-section { margin-top: 3rem; }
 
-    .products-container { padding: 0 1rem; }
+    /* ── TIENDAS ─────────────────────────────────────────────── */
+    .tiendas-grid { gap: 1rem; }
+    .store-card { grid-template-columns: 1fr; }
+    .store-media { aspect-ratio: 16 / 9; min-height: 200px; }
+    .store-info { padding: 1.25rem; }
+    .store-name { font-size: 1.3rem; }
 
-    /* Store cards */
-    .store-card {
-        grid-template-columns: 1fr;
-    }
-
-    .store-media {
-        aspect-ratio: 16 / 9;
-        min-height: 220px;
-    }
-
-    /* Modal */
+    /* ── MODAL ───────────────────────────────────────────────── */
     .modal-content {
         flex-direction: column;
-        max-height: 100dvh;
         height: 100dvh;
+        max-height: 100dvh;
         max-width: 100%;
         border-radius: 0;
     }
-
-    .modal-image-panel {
-        width: 100%;
-        flex: 0 0 55dvh;
-    }
-
-    .modal-img-viewer {
-        min-height: unset;
-    }
-
+    .modal-image-panel { width: 100%; flex: 0 0 52dvh; }
+    .modal-img-viewer { min-height: unset; }
     .modal-info-panel {
         flex: 1;
         overflow-y: auto;
         justify-content: flex-start;
-        padding: 1.5rem;
+        padding: 1.25rem;
     }
-
-    .modal-thumbnails { height: 70px; }
-    .gallery-thumb { width: 50px; height: 55px; }
-
+    .modal-thumbnails { height: 64px; }
+    .gallery-thumb { width: 46px; height: 52px; }
     .swipe-hint { display: block; }
+    .modal-title { font-size: 1.5rem; }
 
-    /* Cart drawer */
+    /* ── CARRITO ─────────────────────────────────────────────── */
     .drawer-cart { max-width: 100%; }
-
-    /* WA bubble */
-    .wa-bubble { left: 1rem; bottom: 1rem; }
-    .wa-text { display: none; }
-    .wa-bubble { padding: 0.35rem; }
-
-    /* Cart button */
     #cart-button { right: 1rem; bottom: 1rem; }
 
-    /* Section */
-    .section-header { margin-bottom: 2.5rem; }
-    .assistance-section { margin-top: 3rem; }
+    /* ── WHATSAPP BUBBLE ─────────────────────────────────────── */
+    .wa-bubble { left: 1rem; bottom: 1rem; padding: 0.35rem; }
+    .wa-text { display: none; }
 
-    /* Tiendas */
-    .tiendas-grid { gap: 1rem; }
-    .store-info { padding: 1.5rem; }
-
-    /* Collages en móvil */
-    .hero-collage,
-    .team-collage {
-        height: clamp(260px, 70vw, 420px);
-    }
-
-    /* 5 fotos en móvil: solo 3 visibles, con scroll horizontal */
-    .collage-strip--5 {
-        grid-template-columns: repeat(5, 80vw);
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .collage-strip--5 .collage-photo {
-        scroll-snap-align: start;
-    }
-
-    .collage-phrase {
-        font-size: clamp(1.2rem, 5vw, 2rem);
-    }
-
-    /* Logo footer en móvil */
-    .footer-logo { width: 150px; }
-
-    /* Nuevo en móvil */
-    .nuevo-empty-state { padding: 2rem 1rem; }
+    /* ── SECCIÓN NUEVO ───────────────────────────────────────── */
+    .nuevo-section { padding: 3rem 1rem; }
     .nuevo-section::before { display: none; }
+    .nuevo-empty-state { padding: 1.75rem 1rem; gap: 1.25rem; }
+    .nuevo-coming-text { font-size: 12px; }
+    .nuevo-notify-btn { font-size: 9px; padding: 0.875rem 1.25rem; }
+
+    /* ── FOOTER ──────────────────────────────────────────────── */
+    .footer-logo { width: 140px; }
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -2349,10 +2348,11 @@ footer {
 @media (max-width: 480px) {
     #productos-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 0.75rem;
+        gap: 0.5rem;
     }
-
-    .card-name { font-size: 16px; }
-
-    .hero-cta { padding: 1rem 2rem; width: 100%; justify-content: center; }
+    .products-container { padding: 0 0.5rem; }
+    .card-name { font-size: 12px; }
+    .collage-photo { flex: 0 0 96vw; }
+    .hero-cta { padding: 0.875rem 1.5rem; font-size: 9px; }
 }
+
