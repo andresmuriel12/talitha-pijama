@@ -1950,25 +1950,30 @@ footer {
     width: 100%;
     overflow: hidden;
     background: var(--crema-dark);
+    /* Banner horizontal: alto fijo para que sea panorámico, no vertical */
+    height: 82vh;
+    max-height: 780px;
+    min-height: 380px;
 }
 
-/* ── Strip: fila horizontal de fotos ────────────────────────── */
+/* ── Strip: fila horizontal que llena el alto del banner ───── */
 .collage-strip {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 4px;
     width: 100%;
+    height: 100%;   /* llena el alto del banner */
 }
 
-/* ── Cada celda: ratio portrait = las fotos se ven completas ── */
+/* ── Cada celda ocupa el 100% del alto del banner ──────────── */
 .collage-photo {
     position: relative;
-    aspect-ratio: 3 / 4;   /* ratio retrato de las fotos */
     overflow: hidden;
     background: var(--crema-dark);
+    height: 100%;   /* sin aspect-ratio fijo — el contenedor controla el alto */
 }
 
-/* cover + top: muestra cuerpo completo de arriba a abajo */
+/* cover + top: muestra a los modelos de cabeza hacia abajo */
 .collage-photo img {
     width: 100%;
     height: 100%;
@@ -2073,6 +2078,7 @@ footer {
 .collage-strip--5 {
     grid-template-columns: repeat(5, 1fr);
     gap: 4px;
+    height: 100%;
 }
 
 /* ── Sección NUEVO ──────────────────────────────────────────── */
@@ -2256,7 +2262,14 @@ footer {
     .hero-story { font-size: 13px; max-width: 300px; }
     .hero-cta { padding: 1rem 2rem; width: 100%; justify-content: center; }
 
-    /* ── COLLAGES — carrusel horizontal deslizable ───────────── */
+    /* ── COLLAGES en móvil — carrusel horizontal deslizable ──── */
+    .hero-collage,
+    .team-collage {
+        height: auto;        /* en móvil el alto lo da el aspect-ratio de la foto */
+        max-height: none;
+        min-height: 0;
+    }
+
     .collage-strip,
     .collage-strip--5 {
         display: flex;
@@ -2267,15 +2280,17 @@ footer {
         gap: 3px;
         scrollbar-width: none;
         -ms-overflow-style: none;
+        height: auto;
     }
     .collage-strip::-webkit-scrollbar,
     .collage-strip--5::-webkit-scrollbar { display: none; }
 
-    /* Una foto visible a la vez, centrada */
+    /* Una foto visible a la vez — formato retrato en móvil */
     .collage-photo {
         flex: 0 0 92vw;
         scroll-snap-align: center;
-        aspect-ratio: 3 / 4;
+        height: auto;
+        aspect-ratio: 3 / 4;  /* en móvil cada foto es retrato (más alta que ancha) */
     }
 
     /* Texto flotante en móvil — más compacto */
@@ -2352,7 +2367,67 @@ footer {
     }
     .products-container { padding: 0 0.5rem; }
     .card-name { font-size: 12px; }
-    .collage-photo { flex: 0 0 96vw; }
+    .collage-photo { flex: 0 0 96vw; aspect-ratio: 3 / 4; }
     .hero-cta { padding: 0.875rem 1.5rem; font-size: 9px; }
 }
 
+/* ══════════════════════════════════════════════════════════════
+   BLOQUEO MODO OSCURO — la página SIEMPRE se ve con colores
+   originales, sin importar si el celular/tablet está en dark mode
+══════════════════════════════════════════════════════════════ */
+@media (prefers-color-scheme: dark) {
+    :root {
+        color-scheme: light !important;
+        --crema: #FEFCF8 !important;
+        --crema-dark: #F5EFE6 !important;
+        --charcoal: #0F0E0C !important;
+        --charcoal-mid: #2A2826 !important;
+        --charcoal-soft: #3D3B38 !important;
+        --text-main: #1A1916 !important;
+        --text-muted: #8C8278 !important;
+        --text-faint: #B8B0A8 !important;
+        --white: #FFFFFF !important;
+        --glass-bg: rgba(254, 252, 248, 0.85) !important;
+        --gold: #C49A6C !important;
+        --gold-light: #E8D5BC !important;
+        --gold-dark: #9A7440 !important;
+    }
+
+    html, body {
+        background-color: #FEFCF8 !important;
+        color: #1A1916 !important;
+        color-scheme: light !important;
+    }
+
+    /* Navegación */
+    .navbar, .nav-inner { background: rgba(254,252,248,0.95) !important; }
+    .nav-link { color: #0F0E0C !important; }
+
+    /* Announcement bar — siempre oscuro */
+    .announcement-bar { background: #0F0E0C !important; color: #FEFCF8 !important; }
+
+    /* Hero */
+    .hero-section { background: #FEFCF8 !important; }
+    .hero-title { color: #0F0E0C !important; }
+
+    /* Cards de productos */
+    .product-card { background: #FFFFFF !important; }
+    .card-name { color: #1A1916 !important; }
+    .card-price { color: #C49A6C !important; }
+    .card-ref { color: #8C8278 !important; }
+
+    /* Secciones */
+    .nuevo-section { background: #F5EFE6 !important; }
+    .section-title { color: #0F0E0C !important; }
+    .section-eyebrow { color: #C49A6C !important; }
+
+    /* Footer */
+    footer { background: #0F0E0C !important; color: #FEFCF8 !important; }
+
+    /* Buscador */
+    .search-input { background: #FFFFFF !important; color: #1A1916 !important; border-color: #E8D5BC !important; }
+    .search-input::placeholder { color: #B8B0A8 !important; }
+
+    /* Drawer carrito */
+    .drawer-cart { background: #FEFCF8 !important; color: #1A1916 !important; }
+}
