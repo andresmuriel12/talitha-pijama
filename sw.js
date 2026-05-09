@@ -5,7 +5,7 @@
 // Soporta alto volumen: reduce carga al servidor ~80% en visitas recurrentes
 // ============================================================
 
-const CACHE_NAME = 'talitha-v2';
+const CACHE_NAME = 'talitha-v3';
 const STATIC_ASSETS = [
   './',
   './index.html',
